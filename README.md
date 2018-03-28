@@ -1,8 +1,8 @@
-#Building a WebRTC Video Chat Application with PeerJS
+# Building a WebRTC Video Chat Application with PeerJS
 
 A tutorial on building a WebRTC video chat app with PeerJS, that allows you to communicate with (for example) your customers in real-time.
 
-Article URL: http://www.sitepoint.com/webrtc-video-chat-application-peerjs
+Article URL: [http://www.sitepoint.com/webrtc-video-chat-application-peerjs](http://www.sitepoint.com/webrtc-video-chat-application-peerjs)
 
 ## Requirements
 
@@ -10,14 +10,14 @@ Article URL: http://www.sitepoint.com/webrtc-video-chat-application-peerjs
 
 ## Installation Steps
 
-1. Clone repo
-2. Run `npm install` in `public` diectory
-3. Run `npm install` in `server` diectory
+1. Clone repository
+2. Run `npm install` in `public` directory
+3. Run `npm install` in `server` directory
 4. Start server with `node peer-server.js` from `server` directory
 5. Start client with (for example) `php -S localhost:3000` from client directory
-4. Visit [http://localhost:3000/](http://localhost:3000/).
+6. Visit [http://localhost:3000/](http://localhost:3000/).
 
-##License
+## License
 
 The MIT License (MIT) Copyright (c)
 
