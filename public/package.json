@@ -1,10 +1,20 @@
 {
   "name": "peer-messenger-client",
   "version": "0.0.1",
+  "description": "Peer Messenger Client",
+  "author": "Wern Ancheta",
+  "license": "MIT",
+  "scripts": {
+    "start": "php -S localhost:3000"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:sitepoint-editors/peer-messenger.git"
+  },
   "dependencies": {
-    "jquery": "~2.1.4",
-    "picnic": "~4.1.2",
-    "peerjs": "~0.3.14",
-    "handlebars": "~4.0.5"
+    "handlebars": "^4.0.11",
+    "jquery": "^3.3.1",
+    "peerjs": "^0.3.14",
+    "picnic": "^6.5.0"
   }
 }

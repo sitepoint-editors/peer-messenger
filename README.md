@@ -13,8 +13,8 @@ Article URL: [http://www.sitepoint.com/webrtc-video-chat-application-peerjs](htt
 1. Clone repository
 2. Run `npm install` in `public` directory
 3. Run `npm install` in `server` directory
-4. Start server with `node peer-server.js` from `server` directory
-5. Start client with (for example) `php -S localhost:3000` from client directory
+4. Start server with `npm start` or `node peer-server.js` from `server` directory
+5. Start client with `npm start` or  `php -S localhost:3000` from `client` directory
 6. Visit [http://localhost:3000/](http://localhost:3000/).
 
 ## License
