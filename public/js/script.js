@@ -36,7 +36,8 @@ $(() => {
 
   const onReceiveStream = (stream, element_id) => {
     const video = $('#' + element_id + ' video')[0];
-    video.src = window.URL.createObjectURL(stream);
+    // video.src = window.URL.createObjectURL(stream); Depracated
+    video.srcObject = stream;
     window.peer_stream = stream;
   }
 
