@@ -53,6 +53,20 @@ $(() => {
     $('#connect').addClass('hidden');
   });
 
+  const handleMessage = (data) => {
+    const header_plus_footer_height = 285;
+    const base_height = $(document).height() - header_plus_footer_height;
+    const messages_container_height = $('#messages-container').height();
+    messages.push(data);
+
+    const html = messages_template({ 'messages': messages });
+    $('#messages').html(html);
+
+    if (messages_container_height >= base_height) {
+      $('html, body').animate({ scrollTop: $(document).height() }, 500);
+    }
+  }
+
   peer.on('connection', (connection) => {
     conn = connection;
     peer_id = connection.peer;
@@ -63,19 +77,6 @@ $(() => {
     $('#connected_peer').text(connection.metadata.username);
   });
 
-  const handleMessage = (data) => {
-    const header_plus_footer_height = 285;
-    const base_height = $(document).height() - header_plus_footer_height;
-    const messages_container_height = $('#messages-container').height();
-    messages.push(data);
-
-    const html = messages_template({'messages' : messages});
-    $('#messages').html(html);
-
-    if(messages_container_height >= base_height){
-      $('html, body').animate({ scrollTop: $(document).height() }, 500);
-    }
-  }
 
   const sendMessage = () => {
     const text = $('#message').val();
