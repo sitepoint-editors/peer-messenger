@@ -20,23 +20,21 @@ $(() => {
     $('#id').text(peer.id);
   });
 
-  navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
-
-  const getVideo = (callback) => {
-    navigator.getUserMedia({audio: true, video: true}, callback, (error) => {
+  const getVideo = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+      window.localStream = stream;
+      onReceiveStream(stream, 'my-camera');
+    } catch (error) {
       console.log(error);
       alert('An error occured. Please try again');
-    });
+    }
   }
 
-  getVideo((stream) => {
-    window.localStream = stream;
-    onReceiveStream(stream, 'my-camera');
-  });
+  getVideo();
 
   const onReceiveStream = (stream, element_id) => {
     const video = $('#' + element_id + ' video')[0];
-    // video.src = window.URL.createObjectURL(stream); Depracated
     video.srcObject = stream;
     window.peer_stream = stream;
   }
