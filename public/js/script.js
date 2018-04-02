@@ -1,10 +1,10 @@
-$(function(){
+$(() => {
 
-  var messages = [];
-  var peer_id, name, conn;
-  var messages_template = Handlebars.compile($('#messages-template').html());
+  let messages = [];
+  let peer_id, name, conn;
+  const messages_template = Handlebars.compile($('#messages-template').html());
 
-  var peer = new Peer({
+  const peer = new Peer({
     host: 'localhost',
     port: 9000,
     path: '/peerjs',
@@ -16,31 +16,30 @@ $(function(){
     ]}
   });
 
-  peer.on('open', function(){
+  peer.on('open', () => {
     $('#id').text(peer.id);
   });
 
-  navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
-
-  function getVideo(callback){
-    navigator.getUserMedia({audio: true, video: true}, callback, function(error){
+  const getVideo = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+      window.localStream = stream;
+      onReceiveStream(stream, 'my-camera');
+    } catch (error) {
       console.log(error);
-      alert('An error occured. Please try again');
-    });
+      alert('An error occurred. Please try again');
+    }
   }
 
-  getVideo(function(stream){
-    window.localStream = stream;
-    onReceiveStream(stream, 'my-camera');
-  });
+  getVideo();
 
-  function onReceiveStream(stream, element_id){
-    var video = $('#' + element_id + ' video')[0];
-    video.src = window.URL.createObjectURL(stream);
+  const onReceiveStream = (stream, element_id) => {
+    const video = $('#' + element_id + ' video')[0];
+    video.srcObject = stream;
     window.peer_stream = stream;
   }
 
-  $('#login').click(function(){
+  $('#login').click(() => {
     name = $('#name').val();
     peer_id = $('#peer_id').val();
     if(peer_id){
@@ -54,7 +53,21 @@ $(function(){
     $('#connect').addClass('hidden');
   });
 
-  peer.on('connection', function(connection){
+  const handleMessage = (data) => {
+    const header_plus_footer_height = 285;
+    const base_height = $(document).height() - header_plus_footer_height;
+    const messages_container_height = $('#messages-container').height();
+    messages.push(data);
+
+    const html = messages_template({ 'messages': messages });
+    $('#messages').html(html);
+
+    if (messages_container_height >= base_height) {
+      $('html, body').animate({ scrollTop: $(document).height() }, 500);
+    }
+  }
+
+  peer.on('connection', (connection) => {
     conn = connection;
     peer_id = connection.peer;
     conn.on('data', handleMessage);
@@ -64,30 +77,17 @@ $(function(){
     $('#connected_peer').text(connection.metadata.username);
   });
 
-  function handleMessage(data){
-    var header_plus_footer_height = 285;
-    var base_height = $(document).height() - header_plus_footer_height;
-    var messages_container_height = $('#messages-container').height();
-    messages.push(data);
 
-    var html = messages_template({'messages' : messages});
-    $('#messages').html(html);
-
-    if(messages_container_height >= base_height){
-      $('html, body').animate({ scrollTop: $(document).height() }, 500);
-    }
-  }
-
-  function sendMessage(){
-    var text = $('#message').val();
-    var data = {'from': name, 'text': text};
+  const sendMessage = () => {
+    const text = $('#message').val();
+    const data = {'from': name, 'text': text};
 
     conn.send(data);
     handleMessage(data);
     $('#message').val('');
   }
 
-  $('#message').keypress(function(e){
+  $('#message').keypress((e) => {
     if(e.which == 13){
       sendMessage();
     }
@@ -95,26 +95,25 @@ $(function(){
 
   $('#send-message').click(sendMessage);
 
-  $('#call').click(function(){
+  $('#call').click(() => {
     console.log('now calling: ' + peer_id);
     console.log(peer);
-    var call = peer.call(peer_id, window.localStream);
-    call.on('stream', function(stream){
+    const call = peer.call(peer_id, window.localStream);
+    call.on('stream', (stream) => {
       window.peer_stream = stream;
       onReceiveStream(stream, 'peer-camera');
     });
   });
 
-  peer.on('call', function(call){
-    onReceiveCall(call);
-  });
-
-  function onReceiveCall(call){
+  const onReceiveCall = (call) => {
     call.answer(window.localStream);
-    call.on('stream', function(stream){
+    call.on('stream', (stream) => {
       window.peer_stream = stream;
       onReceiveStream(stream, 'peer-camera');
     });
   }
 
+  peer.on('call', (call) => {
+    onReceiveCall(call);
+  });
 });

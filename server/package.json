@@ -1,6 +1,16 @@
 {
   "name": "peer-messenger-peerserver",
+  "description": "Peer Messenger Server",
   "version": "0.0.1",
+  "author": "Wern Ancheta",
+  "license": "MIT",
+  "scripts": {
+    "start": "node peer-server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:sitepoint-editors/peer-messenger.git"
+  },
   "dependencies": {
     "peer": "^0.2.8"
   }

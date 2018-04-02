@@ -1,2 +1,2 @@
-var PeerServer = require('peer').PeerServer;
-var server = PeerServer({port: 9000, path: '/peerjs'});
+const PeerServer = require('peer').PeerServer;
+const server = PeerServer({port: 9000, path: '/peerjs'});
