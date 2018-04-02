@@ -27,7 +27,7 @@ $(() => {
       onReceiveStream(stream, 'my-camera');
     } catch (error) {
       console.log(error);
-      alert('An error occured. Please try again');
+      alert('An error occurred. Please try again');
     }
   }
 
